@@ -77,6 +77,7 @@ public class PickUpObject : MonoBehaviour {
                         isCarrying = true;
                         heldObj = p.gameObject;
                         rbHeldObj = heldObj.GetComponent<Rigidbody>();
+                        rbHeldObj.isKinematic = true;
                     }
                 }
 
@@ -95,7 +96,15 @@ public class PickUpObject : MonoBehaviour {
 
     void carry(GameObject held) 
     {
-        held.transform.position = mainCamera.transform.position + (mainCamera.transform.forward * distance);
-        rbHeldObj.isKinematic = true;
+        // specific distance for torch
+        if (held.tag == "Torch")
+        {
+            held.transform.position = mainCamera.transform.position + (mainCamera.transform.forward * 0.8f) + (mainCamera.transform.right * 0.53f) + (mainCamera.transform.up * -0.3f);
+            held.transform.rotation = Quaternion.LookRotation(mainCamera.transform.forward, mainCamera.transform.up);
+        }
+        else
+        {
+            held.transform.position = mainCamera.transform.position + (mainCamera.transform.forward * distance);
+        }
     }
 }
